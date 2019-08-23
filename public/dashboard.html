@@ -21,22 +21,7 @@
 	</nav>
 
 	<div class="container py-4">
-		<table class="table sortable table-responsive">
-			<thead class="thead-dark">
-				<tr>
-					<th>pH Value</th>
-					<th>Acid amount</th>
-					<th>Alkali amount</th>
-					<th>Acid servo Status</th>
-					<th>Alkali servo Status</th>
-					<th>Fish food amount</th>
-					<th>Fish food servo status</th>
-					<th>Time</th>
-				</tr>
-			</thead>
-			<tbody class="tbody_content">
-			</tbody>
-		</table>
+		<div id="pHValue" style="height: 250px;"></div>
 	</div>
 
 	<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
@@ -62,8 +47,7 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
 	<!-- App scripts -->
-	<script src="./assets/sorttable.js"></script>
-	<script src="./assets/app.js"></script>
+	<script src="./assets/dashboard.js"></script>
 </body>
 
 </html>

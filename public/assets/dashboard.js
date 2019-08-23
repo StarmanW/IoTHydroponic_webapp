@@ -21,26 +21,29 @@
         }
     },
         UI = {
-            displayData: (data) => {
-                Array.from(Object.entries(data)).forEach(v => {
-                    const d = new Date(Date.parse(JSON.parse(v[1].timestamp))),
-                        output = `<tr>
-                        <td>${v[1].pH.pHValue}</td>
-                        <td>${v[1].pH.acidAmount}</td>
-                        <td>${v[1].pH.alkaliAmount}</td>
-                        <td>${v[1].pH.acidStatus}</td>
-                        <td>${v[1].pH.alkaliStatus}</td>
-                        <td>${v[1].feeder.amount}</td>
-                        <td>${v[1].feeder.status}</td>
-                        <td>${utilities.getTime(v[1].timestamp)}</td >
-                    </tr > `;
-                    document.querySelector('.tbody_content').innerHTML += output;
+            displayData: (rawData) => {
+                let data = [];
+                Array.from(Object.entries(rawData)).forEach(v => {
+                    console.log(v[1].pH.pHValue);
+                    data.push({
+                        pH: v[1].pH.pHValue,
+                        time: JSON.parse(v[1].timestamp)
+                    });
                 });
+
+                new Morris.Line({
+                    element: 'pHValue',
+                    data: data,
+                    xkey: 'time',
+                    ykeys: ['pH'],
+                    labels: ['pH Value'],
+                    dateFormat: (x) => utilities.getTime(new Date(x)),
+                    resize: true,
+                  });
             }
         },
         utilities = {
-            getTime: (time) => {
-                const date = new Date(Date.parse(JSON.parse(time)));
+            getTime: (date) => {
                 let output = "";
                 (date.getHours() > 12) ? output += `${utilities.pad(date.getHours(), 2)}:` : utilities.pad(date.getHours(), 2);
                 output += `${utilities.pad(date.getMinutes(), 2)}:`;
