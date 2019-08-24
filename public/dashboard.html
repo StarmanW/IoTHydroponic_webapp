@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+	<link rel="stylesheet" href="./assets/style.css">
 </head>
 
 <body>
@@ -21,7 +22,100 @@
 	</nav>
 
 	<div class="container py-4">
-		<div id="pHValue" style="height: 250px;"></div>
+		<div class="alert alert-warning alert-dismissible fade show" style="display: none;" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<strong class="alert_text"></strong>
+		</div>
+
+		<div class="alert alert-danger alert-dismissible fade show" style="display: none;" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<strong class="alert_text"></strong>
+		</div>
+
+		<div class="bg-light rounded p-4">
+			<!-- Overall Statistics -->
+			<h2 class="text-center">Overall Statistics</h2>
+			<hr>
+			<div class="row text-center">
+				<div class="col-md-4 noHover">
+					<h5>Current pH value:</h5>
+					<div id="pHValue" style="height: 250px;"></div>
+				</div>
+				<div class="col-md-4">
+					<h5>pH Solution:</h5>
+					<div id="pHSolution" style="height: 250px;"></div>
+				</div>
+				<div class="col-md-4 noHover">
+					<h5>Fish Food Amount:</h5>
+					<div id="foodAmount" style="height: 250px;"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- pH Value Line Graph -->
+		<div class="bg-light rounded p-4 mt-4">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<h2 class="text-center">pH Value graph</h2>
+					<hr>
+					<div id="pHValueLine" style="height: 250px;"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Time record -->
+		<div class="bg-light rounded p-4 mt-4">
+			<div class="row mt-4">
+				<div class="col-md-4">
+					<h4 class="text-center">Acid Solution Record</h4>
+					<hr>
+					<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th>pH Value</th>
+								<th>Amount Left</th>
+								<th>Time</th>
+							</tr>
+						</thead>
+						<tbody class="acidTbody">
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-4">
+					<h4 class="text-center">Alkaline Solution Record</h4>
+					<hr>
+					<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th>pH Value</th>
+								<th>Amount Left</th>
+								<th>Time</th>
+							</tr>
+						</thead>
+						<tbody class="alkalineTbody">
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-4">
+					<h4 class="text-center">Fish Food Record</h4>
+					<hr>
+					<table class="table">
+						<thead class="thead-dark">
+							<tr>
+								<th>Amount Left</th>
+								<th>Time</th>
+							</tr>
+						</thead>
+						<tbody class="fishFoodTbody">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->

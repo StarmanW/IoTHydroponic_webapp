@@ -32,7 +32,7 @@
                         <td>${v[1].pH.alkaliStatus}</td>
                         <td>${v[1].feeder.amount}</td>
                         <td>${v[1].feeder.status}</td>
-                        <td>${utilities.getTime(v[1].timestamp)}</td >
+                        <td>${Date.parse(JSON.parse(v[1].timestamp))}</td >
                     </tr > `;
                     document.querySelector('.tbody_content').innerHTML += output;
                 });
