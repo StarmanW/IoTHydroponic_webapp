@@ -195,15 +195,11 @@
                     element: 'pHValue',
                     data: [
                         {
-                            label: "None",
-                            value: 14.0 - rawData[rawData.length - 1][1].pH.pHValue
-                        },
-                        {
                             label: 'pH Value',
                             value: rawData[rawData.length - 1][1].pH.pHValue
                         }
                     ],
-                    colors: ['#00c250', '#008f3b'],
+                    colors: ['#00c250'],
                     resize: true,
                 });
 
@@ -230,14 +226,10 @@
                         {
                             label: 'Food Amount',
                             value: rawData[rawData.length - 1][1].feeder.amount
-                        },
-                        {
-                            label: '',
-                            value: rawData[0][1].feeder.amount - rawData[rawData.length - 1][1].feeder.amount
                         }
                     ],
                     formatter: (y, data) => `${y} ml`,
-                    colors: ['#db4d00', '#ff6817'],
+                    colors: ['#db4d00'],
                     resize: true,
                 });
             },
