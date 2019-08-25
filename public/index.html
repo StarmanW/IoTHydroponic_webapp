@@ -46,11 +46,11 @@
 					<div id="pHValue" style="height: 250px;"></div>
 				</div>
 				<div class="col-md-4">
-					<h5>pH Solution:</h5>
+					<h5>Current pH solution:</h5>
 					<div id="pHSolution" style="height: 250px;"></div>
 				</div>
 				<div class="col-md-4 noHover">
-					<h5>Fish Food Amount:</h5>
+					<h5>Current fish food amount:</h5>
 					<div id="foodAmount" style="height: 250px;"></div>
 				</div>
 			</div>
@@ -59,9 +59,23 @@
 		<!-- pH Value Line Graph -->
 		<div class="bg-light rounded p-4 mt-4">
 			<div class="row">
-				<div class="col-md-12 text-center">
+				<div class="col-md-12">
 					<h2 class="text-center">pH Value graph</h2>
 					<hr>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<select class="form-control" name="timeSelect" id="timeSelect">
+									<option selected value="0">Select Time Interval</option>
+									<option value="5">5 mins</option>
+									<option value="10">10 mins</option>
+									<option value="15">15 mins</option>
+									<option value="20">20 mins</option>
+									<option value="25">25 mins</option>
+								</select>
+							</div>
+						</div>
+					</div>
 					<div id="pHValueLine" style="height: 250px;"></div>
 				</div>
 			</div>

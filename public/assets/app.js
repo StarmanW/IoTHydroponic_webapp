@@ -1,4 +1,5 @@
 (() => {
+    let GLOBAL_DATA = null;
     const firebaseDB = {
         getConfig: () => {
             return {
@@ -14,17 +15,39 @@
         initFirebase: () => {
             return firebase.initializeApp(firebaseDB.getConfig());
         },
-        getData: async (displayData) => {
-            let snapshot = await firebase.database().ref('/IoTHydroponic-1');
-            // let snapshot = await firebase.database().ref('/IoTHydroponic-1').orderByChild('timestamp').startAt('\"2019-08-23 17:16:42.317753\"');
-            snapshot.on('value', displayData)
+        getData: async (timestamp, callback) => {
+            let snapshot = null;
+            if (timestamp === null) {
+                let date = new Date();
+                date.setHours(0, 0, 0, 0);
+                snapshot = await firebase.database().ref('/IoTHydroponic-1').orderByChild('timestamp').startAt(date.getTime());
+            } else if (timestamp === 0) {
+                snapshot = await firebase.database().ref('/IoTHydroponic-1').orderByChild('timestamp').limitToLast(50);
+            } else {
+                snapshot = await firebase.database().ref('/IoTHydroponic-1').orderByChild('timestamp').startAt(timestamp);
+            }
+
+            snapshot.on('value', (data) => {
+                if (data.val() === null) {
+                    firebaseDB.getData(0, UI.displayData);
+                } else {
+                    GLOBAL_DATA = data;
+                    callback(data.val());
+                }
+            })
         }
     },
         UI = {
             displayData: (rawData) => {
-                rawData = Array.from(Object.entries(rawData.val()));
+                rawData = Array.from(Object.entries(rawData));
                 UI.resetUI();
                 UI.alertCheck(rawData);
+                UI.displayTableData(rawData);
+                morris.pHLineGraph(rawData);
+                morris.statistics(rawData);
+            },
+            updateInterval: (rawData) => {
+                UI.resetUI();
                 UI.displayTableData(rawData);
                 morris.pHLineGraph(rawData);
                 morris.statistics(rawData);
@@ -34,6 +57,9 @@
                 document.querySelector('#pHSolution').innerHTML = "";
                 document.querySelector('#foodAmount').innerHTML = "";
                 document.querySelector('#pHValueLine').innerHTML = "";
+                document.querySelector('.acidTbody').innerHTML = "";
+                document.querySelector('.alkalineTbody').innerHTML = "";
+                document.querySelector('.fishFoodTbody').innerHTML = "";
             },
             displayTableData: (rawData) => {
                 const acidTbody = document.querySelector('.acidTbody'),
@@ -64,7 +90,7 @@
                         </tr>
                     `;
                 });
-                
+
                 alkalineTable.forEach(e => {
                     alkalineTbody.innerHTML += `
                         <tr>
@@ -131,6 +157,23 @@
                     alertWarning.querySelector('.alert_text').innerHTML = warnOutput;
                     alertWarning.style.display = '';
                 }
+            },
+            initIntervalUI: () => {
+                const timeSelect = document.querySelector('#timeSelect');
+                timeSelect.addEventListener('change', (e) => {
+                    let data = Array.from(Object.entries(GLOBAL_DATA.val())),
+                    filteredData = [],
+                    timeBoundary = data[data.length - 1][1].timestamp - timeSelect.value * 60000;
+                    
+                    if (timeSelect.value === '0') {
+                        UI.updateInterval(data);
+                        return;
+                    }
+                    filteredData = data.filter((d) => {
+                        return d[1].timestamp >= timeBoundary;
+                    });
+                    UI.updateInterval(filteredData);
+                });
             }
         },
         utilities = {
@@ -212,6 +255,8 @@
                     data: data,
                     xkey: 'time',
                     ykeys: ['pH'],
+                    ymax: 14,
+                    ymin: 0,
                     labels: ['pH Value'],
                     dateFormat: (x) => utilities.getTime(new Date(x)),
                     resize: true,
@@ -222,5 +267,6 @@
 
     // Run
     firebaseDB.initFirebase();
-    firebaseDB.getData(UI.displayData);
+    firebaseDB.getData(null, UI.displayData);
+    UI.initIntervalUI();
 })();
